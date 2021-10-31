@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <img src="{{ image.image.url }}" class="img-fluid rounded-start" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="row g-0">
+
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ image.image_name }}</h5>
+                            <p class="card-text">
+                                {{image.image_caption }}
+                            </p>
+                            <p class="card-text"><small class="text-muted">Last updated
+                                    {{image.image_date|timesince}} ago
+                                </small></p>
+                            {% if comments %}
+                            {% for comment in comments %}
+                            <div class="d-flex justify-content-start card mb-3">
+                                <div class="img-box">
+                                    <img src=""
+                                        alt="">
+                                </div>
+                                <div class="m-2">
+                                    <h6>{{ comment.user.username }}</h6>
+                                    <h6> <i class="fa fa-clock"></i> <span>
+                                            {{ comment.comment_date }}
+                                        </span>
+                                    </h6>
+                                </div>
+                                <p class="m-2">
+                                    {{comment.comment }}
+                                </p>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                            <!-- comment form -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="{% url 'add_comment' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Comment</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                name="comment" required></textarea>
+                                            <input type="hidden" name="image_id" value="{{ image.id }}">
+                                        </div>
+                                        <button type="submit" class="btn mt-4 floar-right">Post Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-capitalize mt-4">More posts from <strong>{{ image.user.username }}</strong></p>
+        {% for image in images %}
+        <div class="col-sm-12 col-md-3">
+            <div class="card mb-4">
+                <div class="d-flex justify-content-start m-2">
+                    <div>
+                        <a href="{% url 'user_profile' image.user.id %}">
+                            <img src=""
+                                alt="" class="user-avatar border-radius">
+                        </a>
+                    </div>
+                    <div class="text-center mt-1">
+                        <a href="{% url 'user_profile' image.user.id %}">
+                            <h6><small>{{ image.user.username }} </small></h6>
+                        </a>
+                    </div>
+                </div>
+                <img src="{{ image.image.url }}" class="card-img-top" alt="News Image">
+                <div class="card-body">
+                    <small>
+                        <div class="d-flex justify-content-start">
+                            <div>
+                                <p >
+                                    <a href="{% url 'like' image.id %}"> <i class="far fa-heart"></a>
+                                </p>
+                            </div>
+                            <div>
+                                <p class="px-3">
+                                    <a href="{% url 'single_img' image.id %}"> <i class="far fa-comment"></i></a>
+                                </p>
+                            </div>
+                        </div>
+                    </small>
+                    <a href="{% url 'single_img' image.id %}">
+                        <p class="fade-item">{{image.like }} Likes <br>View All {{image.comment_count }}
+                            Comments</p>
+                        <h6 class="">{{ image.image_caption}}<small><span class="text-muted">...more
+                        </span></small> </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

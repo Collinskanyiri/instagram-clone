@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block content %} 
+
+<div class="container">
+    <h1>{{ message }}</h1>
+    <span><a class="btn btn-outline-primary" href="{% url 'post' %}">New Post</a></span>
+
+    <section class="blog-section">
+        <div class="container mt-5">
+            <div class="row">
+                {% for image in images %}
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="card mb-4">
+                        <div class="d-flex justify-content-start m-2">
+                            <div>
+                                <a href="{% url 'user_profile' image.user.id %}">
+                                    <img src=""
+                                        alt="" class="user-avatar border-radius">
+                                </a>
+                            </div>
+                            <div class="text-center mt-1">
+                                <a href="{% url 'user_profile' image.user.id %}">
+                                    <h6><small>{{ image.user.username }} </small></h6>
+                                </a>
+                            </div>
+                        </div>
+                        <img src="{{ image.image.url }}" class="card-img-top" alt="News Image">
+                        <div class="card-body">
+                            <small>
+                                <div class="d-flex justify-content-start">
+                                    <div>
+                                        <p class="px-3" >
+                                            <a href="{% url 'like' image.id %}"> <i class="far fa-heart"></i></a>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="px-3" >
+                                            <a href="{% url 'single_img' image.id %}"> <i class="far fa-comment"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </small>
+                            <a href="{% url 'single_img' image.id %}">
+                                <p class="fade-item">{{image.likes }} Likes <br>View All {{image.comments}}
+                                    Comments</p>
+                                <h6 class="">{{ image.image_caption|slice:":20" }}<small><span class="text-muted">...Read
+                                            More</span></small> </h6>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

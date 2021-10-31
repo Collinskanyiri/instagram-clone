@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+{% load bootstrap4%}
+{% block content%}
+
+{% if form.errors%}
+<div class="alert text-center">
+    <span>An error occurred Please Try again!</span>
+</div>
+{% endif %}
+<div class="container">
+    <h5>{{ message }}</h5>
+    <form action="{% url 'sign_up' %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        <button class="btn btn-outline-secondary" type="submit">Sign Up</button>
+    </form>
+</div>
+
+{% endblock%}
