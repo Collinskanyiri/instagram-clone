@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'mainapp',
     'user_auth',
     'django_forms_bootstrap' ,
-    'herokuapp',
+    
 ]
 
 MIDDLEWARE = [
